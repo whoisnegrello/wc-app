@@ -16,25 +16,27 @@ const ProductInCart = ({item}) => {
   const {deleteProduct} = useContext(Context);
   const {id, images, name, price} = item;
 
-  <View key={id} style={styles.container}>
-    <Image
-      resizeMode="cover"
-      style={styles.itemImage}
-      source={{
-        uri: images[0].src,
-        headers: {
-          Authorization: config.liveLinkCredentials,
-        },
-      }}
-    />
-    <Text style={styles.itemTitle}>{name}</Text>
-    <Text style={styles.itemPrice}>$ {price}</Text>
-    <Pressable
-      style={styles.itemRemoveContainer}
-      onPress={() => deleteProduct(id)}>
-      <Text style={styles.itemRemove}>X</Text>
-    </Pressable>
-  </View>;
+  return (
+    <View key={id} style={styles.container}>
+      <Image
+        resizeMode="cover"
+        style={styles.itemImage}
+        source={{
+          uri: images[0].src,
+          headers: {
+            Authorization: config.liveLinkCredentials,
+          },
+        }}
+      />
+      <Text style={styles.itemTitle}>{name}</Text>
+      <Text style={styles.itemPrice}>$ {price}</Text>
+      <Pressable
+        style={styles.itemRemoveContainer}
+        onPress={() => deleteProduct(id)}>
+        <Text style={styles.itemRemove}>X</Text>
+      </Pressable>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

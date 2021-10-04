@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -10,10 +10,33 @@ import {
 
 import {colors} from '../../resources/constants';
 import config from '../../resources/config';
+import Context from '../../context/Context';
+
+import addIcon from '../../assets/images/product/add-to-cart-icon.png';
+import removeIcon from '../../assets/images/product/remove-from-cart-icon.png';
 
 const ProductItem = props => {
   const {item, navigation} = props;
   const {id, name, price, images} = item;
+  const {cart, thisProductIsInCart, deleteProduct, addProduct} =
+    useContext(Context);
+  const [productBtnIcon, setProductBtnIcon] = useState();
+
+  const handlerPressProductBtn = () => {
+    if (thisProductIsInCart(id)) {
+      deleteProduct(id);
+    } else {
+      addProduct(item);
+    }
+  };
+
+  useEffect(() => {
+    if (thisProductIsInCart(id)) {
+      setProductBtnIcon(removeIcon);
+    } else {
+      setProductBtnIcon(addIcon);
+    }
+  }, [cart]);
 
   return (
     <View key={id} style={styles.itemContainer}>
@@ -35,6 +58,9 @@ const ProductItem = props => {
           <Text style={styles.itemPrice}>{`$ ${price}`}</Text>
           <Text style={styles.itemTitle}>{name}</Text>
         </View>
+        <Pressable onPress={handlerPressProductBtn}>
+          <Image style={styles.productBtn} source={productBtnIcon} />
+        </Pressable>
       </View>
     </View>
   );

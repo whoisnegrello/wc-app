@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import Header from '../header/Header';
+import ProductInCart from './ProductInCart';
 
 import {sizes, colors} from '../../resources/constants';
 import Context from '../../context/Context';
@@ -23,7 +24,7 @@ const CartScreen = props => {
       <FlatList
         style={styles.productsContainer}
         data={cart}
-        renderItem={({item}) => <Text>{item.name}</Text>}
+        renderItem={({item}) => <ProductInCart item={item} {...props} />}
       />
       <View style={styles.resumeContainer}>
         <Text style={styles.resumeText}>Total</Text>

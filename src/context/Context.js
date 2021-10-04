@@ -7,6 +7,7 @@ const context = createContext({
   deleteProduct: productId => {},
   cartPrice: 0,
   updateCartPrice: () => {},
+  thisProductIsInCart: productId => {},
 });
 
 export default context;

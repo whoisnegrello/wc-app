@@ -17,12 +17,15 @@ const GlobalState = props => {
   const deleteProduct = productId => {
     const position = cart.findIndex(product => product.id === productId);
 
-    if (position >= o) {
+    if (position >= 0) {
       const newCart = [...cart];
       newCart.splice(position, 1);
       setCart(newCart);
     }
   };
+
+  const thisProductIsInCart = productId =>
+    cart.findIndex(product => product.id === productId) >= 0;
 
   const updateCartPrice = () => {
     let newCartPrice = 0;
@@ -56,6 +59,7 @@ const GlobalState = props => {
         setCart,
         addProduct,
         deleteProduct,
+        thisProductIsInCart,
         cartPrice,
       }}>
       {props.children}
