@@ -10,6 +10,22 @@ const get = async url => {
   return resJSON;
 };
 
+const post = async (url, body) => {
+  const req = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: config.liveLinkCredentials,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  const reqJSON = await req.json();
+
+  return reqJSON;
+};
+
 export default {
   get,
+  post,
 };

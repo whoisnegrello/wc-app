@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   Dimensions,
@@ -12,6 +12,7 @@ import {
 import {Picker} from '@react-native-picker/picker';
 
 import Header from '../header/Header';
+import Context from '../../context/Context';
 
 import config from '../../resources/config';
 import {sizes, colors} from '../../resources/constants';
@@ -22,6 +23,8 @@ const CheckoutScreen = props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [currentPG, setCurrentPG] = useState(null);
+  const {cart} = useContext(Context);
+  const [message, setMessage] = useState(null);
 
   const fetchPG = async () => {
     const pgList = await apiFetch.get(
@@ -30,6 +33,31 @@ const CheckoutScreen = props => {
     console.log(pgList);
     const enabledPG = pgList.filter(pg => pg.enabled);
     setPaymentGateways(enabledPG);
+  };
+
+  const handlerSubmit = async () => {
+    const line_items = cart.map(product => {
+      return {
+        product_id: product.id,
+        quantity: 1,
+      };
+    });
+
+    const paymentData = {
+      payment_method: currentPG,
+      billing: {
+        first_name: name,
+        email,
+      },
+      line_items,
+    };
+
+    const registerPayment = await apiFetch.post(
+      `${config.siteUrl}orders?${config.wcCredentials}`,
+      paymentData,
+    );
+
+    console.log(registerPayment);
   };
 
   useEffect(() => {
@@ -61,6 +89,9 @@ const CheckoutScreen = props => {
             <Picker.Item key={pg.id} label={pg.title} value={pg.id} />
           ))}
         </Picker>
+        <Pressable style={styles.buttonBuyContainer} onPress={handlerSubmit}>
+          <Text style={styles.textBuy}>Buy</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
