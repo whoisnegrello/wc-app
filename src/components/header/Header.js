@@ -18,7 +18,9 @@ const Header = props => {
         </Pressable>
       )}
       <Image style={styles.logo} source={logo} />
-      <Image style={styles.cartBtn} source={cartBtnIcon} />
+      <Pressable onPress={() => navigation.navigate('Cart')}>
+        <Image style={styles.cartBtn} source={cartBtnIcon} />
+      </Pressable>
     </View>
   );
 };
