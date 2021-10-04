@@ -1,15 +1,17 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+
+import ProductsScreen from './src/components/products/ProductsScreen';
 
 import GlobalState from './src/context/GlobalState';
 
 const App = () => {
   return (
-    <GlobalState>
-      <View>
-        <Text>Hola Mundo!</Text>
-      </View>
-    </GlobalState>
+    <SafeAreaProvider>
+      <GlobalState>
+        <ProductsScreen />
+      </GlobalState>
+    </SafeAreaProvider>
   );
 };
 
