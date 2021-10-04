@@ -1,16 +1,19 @@
 import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
 
-import ProductsScreen from './src/components/products/ProductsScreen';
+import ProductsStack from './src/stacks/ProductsStack';
 
 import GlobalState from './src/context/GlobalState';
 
 const App = () => {
   return (
     <SafeAreaProvider>
-      <GlobalState>
-        <ProductsScreen />
-      </GlobalState>
+      <NavigationContainer>
+        <GlobalState>
+          <ProductsStack />
+        </GlobalState>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 };
