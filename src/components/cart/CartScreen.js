@@ -7,6 +7,7 @@ import {
   View,
   Text,
   FlatList,
+  Pressable,
 } from 'react-native';
 
 import Header from '../header/Header';
@@ -30,6 +31,12 @@ const CartScreen = props => {
         <Text style={styles.resumeText}>Total</Text>
         <Text style={styles.resumePrice}>$ {cartPrice}</Text>
       </View>
+      <Pressable
+        disabled={!(cart.length > 0)}
+        style={styles.buttonCheckout}
+        onPress={() => props.navigation.navigate('Checkout')}>
+        <Text style={styles.textCheckout}>Checkout</Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
