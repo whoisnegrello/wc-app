@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   StyleSheet,
@@ -8,16 +8,18 @@ import {
   View,
   Image,
   ScrollView,
+  Pressable,
 } from 'react-native';
 
 import Header from '../header/Header';
-
+import Context from '../../context/Context';
 import config from '../../resources/config';
 import {sizes, colors} from '../../resources/constants';
 
 const ProductDetailsScreen = props => {
   const {route} = props;
-  const {name, price, description, images} = route.params.product;
+  const {id, name, price, description, images} = route.params.product;
+  const {thisProductIsInCart, addProduct, deleteProduct} = useContext(Context);
 
   return (
     <SafeAreaView>
@@ -43,6 +45,21 @@ const ProductDetailsScreen = props => {
           </Text>
         </View>
       </ScrollView>
+      <View style={styles.buttonContainer}>
+        {thisProductIsInCart(id) ? (
+          <Pressable
+            style={styles.buttonDelete}
+            onPress={() => deleteProduct(id)}>
+            <Text style={styles.buttonTextDelete}>Delete from kart</Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={styles.buttonAdd}
+            onPress={() => addProduct(route.params.product)}>
+            <Text style={styles.buttonTextAdd}>Add to kart</Text>
+          </Pressable>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
