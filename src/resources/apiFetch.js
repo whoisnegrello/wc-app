@@ -1,28 +1,36 @@
 import config from './config';
 
 const get = async url => {
-  const res = await fetch(`${url}`, {
-    headers: {
-      Authorization: config.liveLinkCredentials,
-    },
-  });
-  const resJSON = await res.json();
-  return resJSON;
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Authorization: config.liveLinkCredentials,
+      },
+    });
+    const resJSON = await res.json();
+    return resJSON;
+  } catch (error) {
+    console.error('apiFetch get error', error);
+  }
 };
 
 const post = async (url, body) => {
-  const req = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Authorization: config.liveLinkCredentials,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: config.liveLinkCredentials,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
 
-  const reqJSON = await req.json();
+    const resJSON = await res.json();
 
-  return reqJSON;
+    return resJSON;
+  } catch (error) {
+    console.error('apiFetch post error', error);
+  }
 };
 
 export default {
