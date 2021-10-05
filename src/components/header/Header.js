@@ -1,14 +1,27 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, Image, StyleSheet, Pressable} from 'react-native';
+
+import Context from '../../context/Context';
 
 import {sizes} from '../../resources/constants';
 import logo from '../../assets/images/header/logo.png';
-import cartBtnIcon from '../../assets/images/header/cart-icon.png';
+import cartIcon from '../../assets/images/header/cart-icon.png';
+import cartWithProductsBtnIcon from '../../assets/images/header/cart-with-products-icon.png';
 import goBackBtn from '../../assets/images/header/go-back-icon.png';
 
 const Header = props => {
   const {route, navigation} = props;
   const isProductsScreen = route.name === 'Products';
+  const {cart} = useContext(Context);
+  const [cartBtnIcon, setCartBtnIcon] = useState();
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      setCartBtnIcon(cartWithProductsBtnIcon);
+    } else {
+      setCartBtnIcon(cartIcon);
+    }
+  }, [cart]);
 
   return (
     <View style={styles.container}>
