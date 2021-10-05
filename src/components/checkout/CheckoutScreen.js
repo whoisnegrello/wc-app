@@ -8,6 +8,7 @@ import {
   Platform,
   Pressable,
   Text,
+  View,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 
@@ -23,7 +24,7 @@ const CheckoutScreen = props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [currentPG, setCurrentPG] = useState(null);
-  const {cart} = useContext(Context);
+  const {cart, setCart} = useContext(Context);
   const [message, setMessage] = useState(null);
 
   const fetchPG = async () => {
@@ -58,6 +59,14 @@ const CheckoutScreen = props => {
     );
 
     console.log(registerPayment);
+    if (registerPayment.code && registerPayment.message) {
+      setMessage(`Hubo un error: ${registerPayment.message}.`);
+    } else {
+      setMessage('Tu pedido se registró con éxito.');
+      setCart([]);
+      setName('');
+      setEmail('');
+    }
   };
 
   useEffect(() => {
@@ -92,6 +101,11 @@ const CheckoutScreen = props => {
         <Pressable style={styles.buttonBuyContainer} onPress={handlerSubmit}>
           <Text style={styles.textBuy}>Buy</Text>
         </Pressable>
+        {message && (
+          <View style={styles.messageContainer}>
+            <Text style={styles.textMessage}>{message}</Text>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
